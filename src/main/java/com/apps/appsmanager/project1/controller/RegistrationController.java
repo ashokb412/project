@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class RegistrationController {
    
    final static Logger logger=Logger.getLogger(RegistrationController.class );
@@ -60,23 +60,14 @@ public class RegistrationController {
         }
        
 }  
-   @RequestMapping(value="/user/{emailId}", method = RequestMethod.GET)
-   public ResponseEntity<User> get(@PathVariable String emailId){
-      User dto= userservice.getUserByEmailId(emailId);
-       System.out.println("from controller"+emailId);
-       if(dto == null){
-         logger.info("user with id {} not found");
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       }
-      return new ResponseEntity<>(dto,HttpStatus.OK);
        
        
-   } 
-   @RequestMapping(value="/usersList")
+  
+   @RequestMapping(value="/usersList", method = RequestMethod.GET)
    @ResponseBody
-   public List<User> getUserList(Integer numberOfUsers){
-     List<User>  userlist = userservice.getUserList(numberOfUsers);
-       return null;
+   public List<UserDTO> getUserList(){
+     List<UserDTO>  userlist = userservice.getUserList();
+       return userlist;
        
      
    }

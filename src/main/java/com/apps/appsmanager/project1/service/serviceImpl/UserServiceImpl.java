@@ -28,146 +28,138 @@ import org.springframework.transaction.annotation.Transactional;
  * @author suraj ganti
  */
 @Service
-public class UserServiceImpl implements UserService{
-    
-    @Autowired
-    private UserDAO userDao;
+public class UserServiceImpl implements UserService {
 
-    @Override
-    @Transactional
-    public User addUser(UserDTO userDto) {
-        
-      //UserData  
-        User user = new User();
-      user.setFirstName(userDto.getFirstName());
-      user.setLastName(userDto.getLastName());
-      user.setAddress(userDto.getAddress());
-    user.setEmailId(userDto.getEmail());
-    user.setPhoneNumber(userDto.getPhoneNumber());
-    user.setRole(userDto.getRole());
-    user.setPassword(userDto.getPassword());
-    user.setInterest(userDto.getInterest());
+ @Autowired
+ private UserDAO userDao;
 
-      //User Contacts
-      ContactDetails contact = new ContactDetails();
-      Mobile mobile = new Mobile();
-      if(userDto.getMobile() != null){
-          mobile.setAddresdBook(userDto.getMobile().getAddressBook());
-          mobile.setSkype(userDto.getMobile().getSkype());
-          mobile.setWhatsApp(userDto.getMobile().getWhatsApp());
-          
-      }
+ @Override
+ @Transactional
+ public User addUser(UserDTO userDto) {
 
-      List<Mobile> mobileNumber = new ArrayList<Mobile>();
-      mobileNumber.add(mobile);
+  //UserData  
+  User user = new User();
+  user.setFirstName(userDto.getFirstName());
+  user.setLastName(userDto.getLastName());
+  user.setAddress(userDto.getAddress());
+  user.setEmailId(userDto.getEmail());
+  user.setPhoneNumber(userDto.getPhoneNumber());
+  user.setRole(userDto.getRole());
+  user.setPassword(userDto.getPassword());
+  user.setInterest(userDto.getInterest());
 
-      //Emails
-      Email email = new Email();
-      if(userDto.getEmails() != null){
-          email.setGmail(userDto.getEmails().getGmail());
-          email.setHotmail(userDto.getEmails().getHotmail());
-          email.setYahoo(userDto.getEmails().getYahoo());
-      }
+  //User Contacts
+  ContactDetails contact = new ContactDetails();
+  Mobile mobile = new Mobile();
+  if (userDto.getMobile() != null) {
+   mobile.setAddresdBook(userDto.getMobile().getAddressBook());
+   mobile.setSkype(userDto.getMobile().getSkype());
+   mobile.setWhatsApp(userDto.getMobile().getWhatsApp());
 
-      List<Email> emailList = new ArrayList<Email>();
-      emailList.add(email);
+  }
 
-      //SocilaContacts
-      List<SocialAccount> socialList = new ArrayList<>();
-     List<SocialAccountDTO> socialDtoList =userDto.getSocial();
-     if(socialDtoList != null) {
-         for(SocialAccountDTO socialAccountDto : socialDtoList){
-             SocialAccount social = new SocialAccount();
-             social.setAccountName(socialAccountDto.getAccountName());
-             social.setAccountType(socialAccountDto.getAccountType());
-             social.setUrl(socialAccountDto.getUrl());
-             social.setContactDetails(contact);
-             socialList.add(social);
-         }
-           
-         //Contact Details
-         contact.setMobile(mobileNumber);
-         contact.setEmail(emailList);
-         contact.setSocialAccountList(socialList);
-         email.setContactDetails(contact);
-         mobile.setContactDetails(contact);
-         contact.setUser(user);
-         List<ContactDetails> contactList = new ArrayList<>();
-         contactList.add(contact);
-         user.setContactDetails(contactList);
-         
-         
-         //Location 
-         Location location = new Location();
-         location.setCountry(userDto.getCurrentLocation().getCountry());
-         location.setCity(userDto.getCurrentLocation().getCity());
-         location.setState(userDto.getCurrentLocation().getState());
-         location.setUser(user);
-         List<Location> locationList = new ArrayList<>();
-         locationList.add(location);
-         user.setLocationDetails(locationList);
+  List < Mobile > mobileNumber = new ArrayList < Mobile > ();
+  mobileNumber.add(mobile);
 
-         //Business Location
-         List<BusinessLocation> businessLocationList = new ArrayList<>();
-         List<BusinessLocationDTO> businessLocationDtoList = userDto.getBusinessLocation();
-         if(businessLocationDtoList != null){
-          for (BusinessLocationDTO businessLocationDTO : businessLocationDtoList) {
-              BusinessLocation business = new BusinessLocation();
-              business.setCountry(businessLocationDTO.getCountry());
-              business.setState(businessLocationDTO.getState());
-              business.setCity(businessLocationDTO.getCity());
-              business.setUser(user);
-              businessLocationList.add(business);
-          }
+  //Emails
+  Email email = new Email();
+  if (userDto.getEmails() != null) {
+   email.setGmail(userDto.getEmails().getGmail());
+   email.setHotmail(userDto.getEmails().getHotmail());
+   email.setYahoo(userDto.getEmails().getYahoo());
+  }
 
-     }
-         user.setBusinessLocationDetails(businessLocationList);
+  List < Email > emailList = new ArrayList < Email > ();
+  emailList.add(email);
 
-         //user bank account details
-         BankDetails bank = new BankDetails();
-         bank.setAccountNumber(userDto.getBankPayment().getAccountNo());
-         bank.setBankName(userDto.getBankPayment().getBankName());           
-         bank.setCountryName(userDto.getBankPayment().getCountryName());
-         bank.setNameOfAccount(userDto.getBankPayment().getNameOfAccount());
-         bank.setPaypalEmail(userDto.getBankPayment().getPaypalEmail());
-         bank.setIfsc(userDto.getBankPayment().getIfsc());
-         bank.setUser(user);
-         List<BankDetails> bankList = new ArrayList<>();
-         bankList.add(bank);
-         user.setBankDetails(bankList);
-         }
-      userDao.addUser(user);
-        return user;
-           
-       }
+  //SocilaContacts
+  List < SocialAccount > socialList = new ArrayList < > ();
+  List < SocialAccountDTO > socialDtoList = userDto.getSocial();
+  if (socialDtoList != null) {
+   for (SocialAccountDTO socialAccountDto: socialDtoList) {
+    SocialAccount social = new SocialAccount();
+    social.setAccountName(socialAccountDto.getAccountName());
+    social.setAccountType(socialAccountDto.getAccountType());
+    social.setUrl(socialAccountDto.getUrl());
+    social.setContactDetails(contact);
+    socialList.add(social);
+   }
 
-    @Override
-    @Transactional
-    public boolean alreadyExists(String emailID , String phoneNumber) {
-        
-        return userDao.alreadyExists(emailID,phoneNumber);
+   //Contact Details
+   contact.setMobile(mobileNumber);
+   contact.setEmail(emailList);
+   contact.setSocialAccountList(socialList);
+   email.setContactDetails(contact);
+   mobile.setContactDetails(contact);
+   contact.setUser(user);
+   List < ContactDetails > contactList = new ArrayList < > ();
+   contactList.add(contact);
+   user.setContactDetails(contactList);
+
+
+   //Location 
+   Location location = new Location();
+   location.setCountry(userDto.getCurrentLocation().getCountry());
+   location.setCity(userDto.getCurrentLocation().getCity());
+   location.setState(userDto.getCurrentLocation().getState());
+   location.setUser(user);
+   List < Location > locationList = new ArrayList < > ();
+   locationList.add(location);
+   user.setLocationDetails(locationList);
+
+   //Business Location
+   List < BusinessLocation > businessLocationList = new ArrayList < > ();
+   List < BusinessLocationDTO > businessLocationDtoList = userDto.getBusinessLocation();
+   if (businessLocationDtoList != null) {
+    for (BusinessLocationDTO businessLocationDTO: businessLocationDtoList) {
+     BusinessLocation business = new BusinessLocation();
+     business.setCountry(businessLocationDTO.getCountry());
+     business.setState(businessLocationDTO.getState());
+     business.setCity(businessLocationDTO.getCity());
+     business.setUser(user);
+     businessLocationList.add(business);
     }
 
-    @Override
-    @Transactional
-    public User getUserByEmailId(String emailId) {
-          return  userDao.getUserByEmailId(emailId);
-    }
+   }
+   user.setBusinessLocationDetails(businessLocationList);
 
-    @Override
-    @Transactional
-    public List<User> getUserList(Integer numberOfUsers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   //user bank account details
+   BankDetails bank = new BankDetails();
+   bank.setAccountNumber(userDto.getBankPayment().getAccountNo());
+   bank.setBankName(userDto.getBankPayment().getBankName());
+   bank.setCountryName(userDto.getBankPayment().getCountryName());
+   bank.setNameOfAccount(userDto.getBankPayment().getNameOfAccount());
+   bank.setPaypalEmail(userDto.getBankPayment().getPaypalEmail());
+   bank.setIfsc(userDto.getBankPayment().getIfsc());
+   bank.setUser(user);
+   List < BankDetails > bankList = new ArrayList < > ();
+   bankList.add(bank);
+   user.setBankDetails(bankList);
+  }
+  userDao.addUser(user);
+  return user;
 
-    
-           
-        
-                
-      
-      
-    }
+ }
 
-    
-    
+ @Override
+ @Transactional
+ public boolean alreadyExists(String emailID, String phoneNumber) {
 
+  return userDao.alreadyExists(emailID, phoneNumber);
+ }
+
+ 
+
+ @Override
+ @Transactional
+ public List < UserDTO > getUserList() {
+  return userDao.getUserList();
+ }
+
+
+
+
+
+
+
+}
