@@ -8,11 +8,9 @@ package com.apps.appsmanager.project1.dao.daoImpl;
 import com.apps.appsmanager.project1.model.User;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -49,14 +47,6 @@ public class UserDAOImpl implements UserDAO{
     }
     
     @Override
-    public List<User> getUserList(Integer numberOfUsers) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
-        criteria.addOrder(Order.desc("id"));
-        criteria.setMaxResults(numberOfUsers);
-       return (List<User>) criteria.list();
-    }
-
-    @Override
     public User getByEmail(String email) {
   
         User res = null;
@@ -73,4 +63,35 @@ public class UserDAOImpl implements UserDAO{
     }
 
     
+}
+ @Override
+ public List < UserDTO > getUserList() {
+  Query query = sessionFactory.getCurrentSession().createQuery("from User");
+
+  UserDTO userDto = null;
+  List < UserDTO > userDtoList = new ArrayList < > ();
+  allUsers = query.list();
+  for (Iterator < User > iterator = allUsers.iterator(); iterator.hasNext();) {
+
+   User next = iterator.next();
+   userDto = new UserDTO();
+   userDto.setFirstName(next.getFirstName());
+   userDto.setLastName(next.getLastName());
+   userDto.setEmail(next.getEmailId());
+   userDto.setAddress(next.getAddress());
+   userDto.setInterest(next.getInterest());
+
+   userDtoList.add(userDto);
+  }
+
+  System.out.println("com.apps.appsmanager.project1.dao.daoImpl.UserDAOImpl.getUserList()" + allUsers);
+
+  return userDtoList;
+
+ }
+
+    @Override
+    public User getUserByEmailId(String emailId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

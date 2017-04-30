@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController@RequestMapping("/api/")
 public class RegistrationController {
-
+  
 	final static Logger logger = Logger.getLogger(RegistrationController.class);
 
 	@Autowired
@@ -54,9 +54,14 @@ public class RegistrationController {
 	}
        @RequestMapping(value = "email", method = RequestMethod.POST)
        @ResponseBody
-       public UserDTO getByEmailID(@RequestBody RequestEmail email){
-       
-           return userservice.getByEmail(email.getEmailId());
+       public UserDTO getByEmailID(@RequestBody RequestEmail email){   
+                 return userservice.getByEmail(email.getEmailId());
 //           return null;
        } 
+  
+   @RequestMapping(value="/usersList", method = RequestMethod.GET)
+   @ResponseBody
+   public List<UserDTO> getUserList(){
+     List<UserDTO>  userlist = userservice.getUserList();
+       return userlist; 
 }

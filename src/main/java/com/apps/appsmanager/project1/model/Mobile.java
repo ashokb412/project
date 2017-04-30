@@ -25,7 +25,6 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@Data
 @Entity
 @Table(name="mobile_contacts")
 public class Mobile implements Serializable {

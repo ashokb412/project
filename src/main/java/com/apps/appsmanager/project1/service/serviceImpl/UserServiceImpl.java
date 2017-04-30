@@ -150,12 +150,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public List<User> getUserList(Integer numberOfUsers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    @Transactional
     public UserDTO getByEmail(String email) {
         User user = userDao.getByEmail(email);
         UserDTO userDto = new UserDTO();
@@ -163,14 +157,10 @@ public class UserServiceImpl implements UserService{
         return userDto;
     }
 
-    
-           
-        
-                
-      
-      
-    }
 
-    
-    
-
+ @Override
+ @Transactional
+ public List < UserDTO > getUserList() {
+  return userDao.getUserList();
+ }
+}

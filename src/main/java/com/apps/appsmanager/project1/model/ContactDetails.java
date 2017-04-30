@@ -29,7 +29,6 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@Data
 @Entity
 @Table(name="Contact_Details")
 public class ContactDetails implements Serializable {

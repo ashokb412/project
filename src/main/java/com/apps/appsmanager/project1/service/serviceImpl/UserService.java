@@ -18,8 +18,8 @@ public interface UserService {
     public User addUser(UserDTO userDto);
     
     public boolean alreadyExists(String email,String phoneNumber);
-    
-    public List<User> getUserList(Integer numberOfUsers);
-    
+  
     public UserDTO getByEmail(String email);
+  
+    public List<UserDTO> getUserList();
 }

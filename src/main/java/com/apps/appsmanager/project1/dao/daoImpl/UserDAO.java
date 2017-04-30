@@ -15,8 +15,10 @@ import java.util.List;
  * @author suraj ganti
  */
 public interface UserDAO {
+    
     public User addUser(User user);
     public boolean alreadyExists(String email ,String phoneNumber);
-    public List<User> getUserList(Integer numberOfUsers);
     public User getByEmail(String email);
+    public List<UserDTO> getUserList();
+       
 }
