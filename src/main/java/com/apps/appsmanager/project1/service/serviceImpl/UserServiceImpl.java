@@ -38,10 +38,10 @@ public class UserServiceImpl implements UserService{
     public User addUser(UserDTO userDto) {
         
       //UserData  
-        User user = new User();
-      user.setFirstName(userDto.getFirstName());
-      user.setLastName(userDto.getLastName());
-      user.setAddress(userDto.getAddress());
+    User user = new User();
+    user.setFirstName(userDto.getFirstName());
+    user.setLastName(userDto.getLastName());
+    user.setAddress(userDto.getAddress());
     user.setEmailId(userDto.getEmail());
     user.setPhoneNumber(userDto.getPhoneNumber());
     user.setRole(userDto.getRole());
@@ -150,14 +150,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public User getUserByEmailId(String emailId) {
-          return  userDao.getUserByEmailId(emailId);
+    public List<User> getUserList(Integer numberOfUsers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional
-    public List<User> getUserList(Integer numberOfUsers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public UserDTO getByEmail(String email) {
+        User user = userDao.getByEmail(email);
+        UserDTO userDto = new UserDTO();
+        userDto.setFirstName(user.getFirstName());
+        return userDto;
     }
 
     

@@ -19,7 +19,7 @@ public interface UserService {
     
     public boolean alreadyExists(String email,String phoneNumber);
     
-    public User getUserByEmailId(String emailId);
-    
     public List<User> getUserList(Integer numberOfUsers);
+    
+    public UserDTO getByEmail(String email);
 }
