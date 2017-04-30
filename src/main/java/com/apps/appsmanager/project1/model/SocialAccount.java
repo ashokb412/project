@@ -25,7 +25,6 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@Data
 @Entity
 @Table(name="Social_Account")
 public class SocialAccount implements Serializable {
