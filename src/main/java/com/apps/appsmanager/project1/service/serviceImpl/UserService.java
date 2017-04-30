@@ -19,5 +19,7 @@ public interface UserService {
     
     public boolean alreadyExists(String email,String phoneNumber);
   
+    public UserDTO getByEmail(String email);
+  
     public List<UserDTO> getUserList();
 }

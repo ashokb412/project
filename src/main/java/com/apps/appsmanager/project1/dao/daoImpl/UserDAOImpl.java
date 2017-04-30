@@ -5,13 +5,11 @@
  */
 package com.apps.appsmanager.project1.dao.daoImpl;
 
-import com.apps.appsmanager.project1.dto.UserDTO;
 import com.apps.appsmanager.project1.model.User;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,37 +19,51 @@ import org.springframework.stereotype.Repository;
  * @author suraj ganti
  */
 @Repository
-public class UserDAOImpl implements UserDAO {
-
- final Logger logger = Logger.getLogger(UserDAOImpl.class);
-
- @Autowired
- private SessionFactory sessionFactory;
-
- List < User > allUsers = new ArrayList < > ();
-
- @Override
- public User addUser(User user) {
-  sessionFactory.getCurrentSession().save(user);
-  return user;
- }
-
- @Override
- public boolean alreadyExists(String email, String phoneNumber) {
-         
-  List result = sessionFactory.getCurrentSession()
-   .createQuery(" From User u where u.phoneNumber=:phoneNumber")
-   .setParameter("phoneNumber", phoneNumber)
-   .list();
-
-
-  return !result.isEmpty();
-
- }
-
+public class UserDAOImpl implements UserDAO{
+    
+  final Logger logger = Logger.getLogger(UserDAOImpl.class );
  
- 
+    @Autowired
+    private SessionFactory sessionFactory;
+    
+    private Session getSession(){
+    return sessionFactory.getCurrentSession();
+    }
+    
+    @Override
+    public User addUser(User user) {
+        sessionFactory.getCurrentSession().save(user);
+        return user;
+    }
 
+    @Override
+    public boolean alreadyExists(String email,String phoneNumber) {  
+       List result= sessionFactory.getCurrentSession()
+               .createQuery(" From User u where u.phoneNumber=:phoneNumber")
+               .setParameter("phoneNumber", phoneNumber)
+               .list();    
+        return !result.isEmpty();
+        
+    }
+    
+    @Override
+    public User getByEmail(String email) {
+  
+        User res = null;
+        String hqlQuery="from User u where u.emailId =?";
+        Query query=getSession().createQuery(hqlQuery);
+        query.setParameter(0, email);
+        List list=query.list();
+        for (Object object : list) {
+            User resEnitiy = (User) object;
+            res = resEnitiy;
+        }
+        
+        return res;
+    }
+
+    
+}
  @Override
  public List < UserDTO > getUserList() {
   Query query = sessionFactory.getCurrentSession().createQuery("from User");
@@ -82,6 +94,4 @@ public class UserDAOImpl implements UserDAO {
     public User getUserByEmailId(String emailId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
 }

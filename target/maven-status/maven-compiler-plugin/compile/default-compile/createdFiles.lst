@@ -36,5 +36,6 @@ com\apps\appsmanager\project1\model\DocMetaData.class
 com\apps\appsmanager\project1\model\Role.class
 com\apps\appsmanager\project1\dto\SocialAccountDTO.class
 com\apps\appsmanager\project1\model\User.class
+com\apps\appsmanager\project1\request\RequestEmail.class
 com\apps\appsmanager\project1\dto\ContactDetailsDTO.class
 com\apps\appsmanager\project1\dto\Login.class
